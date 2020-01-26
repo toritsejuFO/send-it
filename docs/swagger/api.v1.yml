@@ -1,0 +1,11 @@
+openapi: 3.0.0
+
+info:
+  title: SendIT API
+  description: SendIT is a courier service that helps users deliver parcels to different destinations.
+  version: 1.0.0
+
+paths:
+  /api/v1/users:
+    get:
+      summary: Get all users

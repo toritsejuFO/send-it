@@ -1,0 +1,4 @@
+.vscode/
+node_modules/
+related-files/
+.nyc_output/
