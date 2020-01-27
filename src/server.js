@@ -21,9 +21,11 @@ app.use('/api/v1', (_, res) => {
   });
 });
 
-app.listen(port, () => {
-  /* eslint-disable no-console */
-  console.log(`Server running on ${port}`);
-});
+if (!module.parent) {
+  app.listen(port, () => {
+    /* eslint-disable no-console */
+    console.log(`Server running on ${port}`);
+  });
+}
 
 export default app;
