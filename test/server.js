@@ -1,13 +1,19 @@
 /* eslint-disable no-undef */
 import chai from 'chai';
+import chaiHTTP from 'chai-http';
+import app from '../dist/server';
 
+chai.use(chaiHTTP);
 chai.should();
 
-describe('server test', () => {
-  describe('port', () => {
-    it('should confirm server port', () => {
-      const port = 3000;
-      port.should.equal(3000);
-    });
+describe('Listening server', () => {
+  it('should query base route sucessfully', (done) => {
+    chai.request(app)
+      .get('/')
+      .end((_, res) => {
+        res.status.should.equal(200);
+        res.body.message.should.equal('Welcome to SendIT API');
+        done();
+      });
   });
 });
