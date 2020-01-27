@@ -8,9 +8,9 @@
     "watch": "nodemon src/server -e js,yml --exec babel-node",
     "build": "babel src -d dist",
     "test": "mocha --require @babel/register",
-    "test:build": "npm run build && mocha --require @babel/register",
-    "cov": "nyc npm run test",
-    "cov:build": "nyc npm run test:build"
+    "coverage": "nyc npm test && npm run generate-lcov && npm run coveralls-coverage",
+    "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
+    "coveralls-coverage": "coveralls < lcov.info"
   },
   "repository": {
     "type": "git",
@@ -39,6 +39,7 @@
     "@babel/preset-env": "^7.8.3",
     "@babel/register": "^7.8.3",
     "chai": "^4.2.0",
+    "coveralls": "^3.0.9",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.20.0",
