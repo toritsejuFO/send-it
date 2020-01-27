@@ -10,6 +10,13 @@ const port = 3000;
 // Setup docs
 app.use('/api/docs/v1', serve, setup(Yaml.load('./docs/swagger/api.v1.yml')));
 
+// Base route
+app.use('/', (_, res) => {
+  res.status(200).send({
+    message: 'Welcome to SendIT API',
+  });
+});
+
 // Setup routes
 app.use('/api/v1/users', usersRouter);
 
@@ -17,3 +24,5 @@ app.listen(port, () => {
   /* eslint-disable no-console */
   console.log(`Server running on ${port}`);
 });
+
+export default app;
