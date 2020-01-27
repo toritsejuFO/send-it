@@ -1,11 +1,23 @@
-openapi: 3.0.0
+swagger: '2.0'
 
 info:
   title: SendIT API
   description: SendIT is a courier service that helps users deliver parcels to different destinations.
   version: 1.0.0
 
+host: localhost:3000
+basePath: /api/v1
+
 paths:
-  /api/v1/users:
+  /:
+    get:
+      summary: Query base route
+      responses:
+        "200":
+          description: "API base route"
+  /users:
     get:
       summary: Get all users
+      responses:
+        "200":
+          description: "Get all users"
