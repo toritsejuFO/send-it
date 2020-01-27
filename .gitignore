@@ -1,4 +1,15 @@
+# vscode
 .vscode/
+
+# node
 node_modules/
+
+# local
 related-files/
+
+# nyc
 .nyc_output/
+lcov.info
+
+# build
+dist/
