@@ -4,7 +4,7 @@ node_js:
 after_success:
 - "curl -o /tmp/travis-automerge https://raw.githubusercontent.com/cdown/travis-automerge/master/travis-automerge"
 - "chmod a+x /tmp/travis-automerge"
-- "BRANCHES_TO_MERGE_REGEX='^(feature|chore)/' BRANCH_TO_MERGE_INTO=dev GITHUB_REPO=toritsejuFO/send-it /tmp/travis-automerge"
+- "BRANCHES_TO_MERGE_REGEX='^[fc]' BRANCH_TO_MERGE_INTO=dev GITHUB_REPO=toritsejuFO/send-it /tmp/travis-automerge"
 - npm run coverage
 env:
   global:
