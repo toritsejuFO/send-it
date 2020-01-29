@@ -1,5 +1,13 @@
 language: node_js
+
 node_js:
   - 12
+
 after_success:
+  - nyc npm test
   - npm run coverage
+
+env:
+  global:
+    - secure: i6dlKLTm0CgkVLZQFTqMH0ac1NHVZZ3VRv+q/uEEqkDaESb+M0QEBst33hT/Uc6uk2FJU7UPS8AcLAvTaqkmPmfcPd8FLbyK+qyMJVXjTFFHMILbvc9yB1EBgUy9x2fKN3ZUOiCgZvto3r4GmxTyoRvAWShVk7TyjmRRvKLSKNSVxU6V5jLwWdGiJSw4RsFk7CeIrupuX7RlxgIHIh3rVafZx+I2t/crcrkqrFJ276AfshCR+4Xa462jEgxa15EFX533bWiGJJaBW2U+umvWI5h+jo9Z8Ed7ogp/SowR/B6bZHAOp2Akc9sF0Ng0mf1ejMZ5ZPWu+AmGVeyc6/F5e6Joj64ZCjDdxsDtbuxWm5XAjGzsSpMJ+czmqC3y6V2UJKCLHczmUYt3SjxB4jwx/vJ6meZmBvxL3T4A/ci9B6g3vZ+DAosKw9M2mCdZtslNLy2/yk8ukdOgJ6m5WGXxqyFLNxJTUPp+fgdrS/IWfC7sXPvL0uArfr0wD4BAH+2RopVp+gNAMhkulQaJJszXzYs18Ci0iJdCI2Wcp1jiMrDOYDJv2BlT4IIoAruPNKyxej+mEaKdIMbvdDjUIGSC7ofB+Ffvmg2r9NihJfxonho44OV7Y2v6HN1QofOTy29lVnRqvCrf7hUNEkAE5d7Jgiwxu8dFPsiM/K9eIJSQJy8=
+    - NODE_ENV=test
