@@ -12,11 +12,11 @@ export default class DB {
 
   constructor() {
     this.pool = new Pool({
-      host: 'localhost',
-      port: 5432,
-      database: 'sendit',
-      user: 'postgres',
-      password: 'postgres2k20',
+      host: process.env.DB_HOST || 'localhost',
+      port: process.env.DB_PORT || 5432,
+      database: process.env.DB_NAME,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
     });
   }
 
