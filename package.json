@@ -8,7 +8,7 @@
     "watch": "nodemon src/server -e js,yml --exec babel-node",
     "build": "babel src -d dist",
     "test": "npm run build && mocha --require @babel/register --exit",
-    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
+    "coverage": "nyc npm test && nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "repository": {
     "type": "git",
