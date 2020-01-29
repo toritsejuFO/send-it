@@ -1,11 +1,5 @@
 language: node_js
 node_js:
-- 12
+  - 12
 after_success:
-- "curl -o /tmp/travis-automerge https://raw.githubusercontent.com/cdown/travis-automerge/master/travis-automerge"
-- "chmod a+x /tmp/travis-automerge"
-- "BRANCHES_TO_MERGE_REGEX='^[fc]' BRANCH_TO_MERGE_INTO=dev GITHUB_REPO=toritsejuFO/send-it /tmp/travis-automerge"
-- npm run coverage
-env:
-  global:
-    secure: qbyU9xp2CBVRrw8LSbfNDUjAsAU2IPsZLohOHsH5q12uwtVyF2kfAOHNQNvIGSfaST8IYk7DG/ArzKnH/c1faJJTWbnv31T2QBVVRphuNy2zE2O69JMW5WQodWk9Z7+MSvlknf2vSha3nL22BAa0KdyDRr0t99giGTYmSBD0do9INOJXUf+SS/wr2RujMXt4mdjN4b1WNwe7ERn1UoY3U5drrPlQvYaeSCe0BlCV9xgM/xOMwraoY/RHsy0r/3DE20mefHyRmJvctbOaRIjZutcAcU03oxjtlCaE8f4alpg7YxgAssPJiYoOZOLlGa4iDEXWYl4tKAyZDMFfLUl0rzaFap55JrgoObVF5TF+w2ajJrcecbn0nWtoC+97rqi3h6GoWrmB2yypU5PWk0MuKP6AKpJ/UmA3hpivMhCrXbcbMfHrQqXVVeH7HdJNHMs2LZngFc0Q9/tz5k5OjJfdIh49WxsZ/wOR5xtbXqmme0ytdkFX+afW2vWOKmnIbkdmmVZhLCayCwn4NBorAipQTV1A+eblqWa04jdIr2ATO7QvYqxIMSNU03iaolaOCd1hJo++qVLQeGneTK0ieMT+OPe4be0vvZikhj00jcMXe2pNtocy5xg2h12tvpxPC5TrE5464pfD4AaU2N2y3TSnzwBwwNsXbfu/vmPr3jBw0VQ=
+  - npm run coverage

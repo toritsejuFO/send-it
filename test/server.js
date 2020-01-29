@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import chai from 'chai';
 import chaiHTTP from 'chai-http';
-import server from '../dist/server';
+import server from '../src/server';
 
 chai.use(chaiHTTP);
 chai.should();
