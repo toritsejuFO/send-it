@@ -4,15 +4,15 @@ import chaiHTTP from 'chai-http';
 import server from '../dist/server';
 
 chai.use(chaiHTTP);
-chai.should();
+const { expect } = chai;
 
 describe('Server', () => {
   it('should query base route sucessfully', (done) => {
     chai.request(server)
       .get('/api/v1')
       .end((_, res) => {
-        res.status.should.equal(200);
-        res.body.message.should.equal('Welcome to SendIT API');
+        expect(res.status).to.equal(200);
+        expect(res.body.message).to.equal('Welcome to SendIT API');
         done();
       });
   });
