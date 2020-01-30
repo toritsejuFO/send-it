@@ -18,22 +18,23 @@ export default class DB {
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
     });
+    DB.instance = this;
   }
 
 
   // Return only one db connection instance
   static getInstance = () => {
     if (!DB.instance) {
-      DB.instance = new DB();
-      return DB.instance;
+      return new DB();
     }
-    return DB.instance();
+    return DB.instance;
   }
 
 
-  query = async (sql, values) => {
+  query = async (sql, values = []) => {
     this.error = false;
-    this.count = 0;
+    this.count = null;
+    this.res = null;
 
     try {
       const client = await this.pool.connect();
@@ -42,10 +43,8 @@ export default class DB {
       this.count = res.rowCount;
       client.release();
     } catch (err) {
-      console.log(err);
       this.error = true;
     }
-
     return this;
   }
 
@@ -124,9 +123,10 @@ export default class DB {
       RETURNING *
     `;
     const finalValues = Object.values(params).concat(Object.values(conditionParams));
-    console.log(sql, toUpdateString, Object.values(finalValues));
     return this.query(sql, Object.values(finalValues));
   }
+
+  close = async () => this.pool.end()
 
 
   /**
@@ -141,46 +141,3 @@ export default class DB {
     value.slice(0, -x)
   )
 }
-
-// const db = DB.getInstance();
-
-// (async function run() {
-//   await db.update('users', {
-//     othernames: 'Miracle',
-//     username: 'toriboi',
-//   }, {
-//     email: 'toriboi.fo@gmail.com',
-//   });
-
-//   console.log(db);
-//   if (!db.error) {
-//     console.log(db.res);
-//   }
-// }());
-
-// // (async function run() {
-// //   await db.insert('users', {
-// //     firstname: 'Ifeanyi',
-// //     lastname: 'Anazia',
-// //     email: 'anazia@gmail.com',
-// //     username: 'anazia',
-// //     isAdmin: false,
-// //     phone: '09063519643',
-// //   });
-// //   console.log(db);
-// //   if (!db.error) {
-// //     console.log(db.res);
-// //   }
-// // }());
-
-// // (async function run() {
-// //   await db.select('users', {
-// //     id: 1,
-// //     // firstname: 'Faith',
-// //   });
-// //   // await db.query('select * from users');
-// //   // console.log(db);
-// //   if (!db.error) {
-// //     console.log(db.res);
-// //   }
-// // }());
