@@ -7,8 +7,9 @@
     "start": "node dist/server.js",
     "watch": "nodemon src/server -e js,yml --exec babel-node",
     "build": "babel src -d dist",
-    "test": "npm run build && mocha --require @babel/register --exit",
-    "coverage": "nyc npm test && nyc report --reporter=text-lcov > coverage.lcov && codecov"
+    "test": "export NODE_ENV=test DB_NAME=sendit_test && npm run build && mocha --require @babel/register --exit",
+    "coverage": "nyc npm test && nyc report --reporter=text-lcov > coverage.lcov && codecov",
+    "create-test-db": "utils/create_test_db.sh || exit 0"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,7 @@
   "homepage": "https://github.com/toritsejuFO/send-it#readme",
   "dependencies": {
     "@babel/runtime": "^7.8.3",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "pg": "^7.17.1",
     "swagger-ui-dist": "^3.25.0",

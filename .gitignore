@@ -13,3 +13,6 @@ lcov.info
 
 # build
 dist/
+
+# environment variables
+.env
