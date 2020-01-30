@@ -3,6 +3,12 @@ language: node_js
 node_js:
   - 12
 
+services:
+  - postgresql
+
+before_script:
+  - npm create-test-db
+
 after_success:
   - npm run coverage
 
