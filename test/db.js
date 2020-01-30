@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 
 import chai from 'chai';
-import DB from '../dist/db';
+import DB from '../src/db';
 
 const { expect } = chai;
 

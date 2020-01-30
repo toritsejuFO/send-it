@@ -7,8 +7,8 @@
     "start": "node dist/server.js",
     "watch": "nodemon src/server -e js,yml --exec babel-node",
     "build": "babel src -d dist",
-    "test": "export NODE_ENV=test DB_NAME=sendit_test && npm run build && mocha --require @babel/register --exit",
-    "coverage": "nyc npm test && nyc report --reporter=text-lcov > coverage.lcov && codecov",
+    "test": "export NODE_ENV=test DB_NAME=sendit_test && mocha --require @babel/register --exit",
+    "coverage": "nyc npm test && nyc report --reporter=text-lcov > coverage.lcov",
     "create-test-db": "utils/create_test_db.sh || exit 0"
   },
   "repository": {
@@ -44,7 +44,6 @@
     "babel-eslint": "^10.0.3",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
-    "codecov": "^3.6.2",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.20.0",
