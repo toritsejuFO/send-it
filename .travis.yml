@@ -7,7 +7,7 @@ services:
   - postgresql
 
 before_script:
-  - npm create-test-db
+  - npm run create-test-db
 
 after_success:
   - npm run coverage
