@@ -8,8 +8,7 @@
     "watch": "nodemon src/server -e js,yml --exec babel-node",
     "build": "babel src -d dist",
     "test": "export NODE_ENV=test DB_NAME=sendit_test && npm run build && mocha --require @babel/register --exit",
-    "coverage": "nyc npm test && nyc report --reporter=text-lcov > coverage.lcov && npm run codecov-coverage",
-    "codecov-coverage": "bash <(curl -s https://codecov.io/bash)",
+    "coverage": "nyc npm test && nyc report --reporter=text-lcov > coverage.lcov",
     "create-test-db": "utils/create_test_db.sh || exit 0"
   },
   "repository": {
