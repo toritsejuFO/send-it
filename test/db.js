@@ -15,8 +15,9 @@ describe('Database API', () => {
     done();
   });
 
-  after((done) => {
-    db.close().then(done());
+  after(async () => {
+    await db.query('delete from users');
+    db.close();
   });
 
   describe('database instance', () => {
