@@ -9,6 +9,8 @@ export default class DB {
 
   count = null;
 
+  errorStack = null;
+
 
   constructor() {
     this.pool = new Pool({
@@ -35,15 +37,19 @@ export default class DB {
     this.error = false;
     this.count = null;
     this.res = null;
+    this.errorStack = null;
 
+    const client = await this.pool.connect();
     try {
-      const client = await this.pool.connect();
       const res = await client.query(sql, values);
       this.res = res.rows;
       this.count = res.rowCount;
-      client.release();
     } catch (err) {
+      await client.query('ROLLBACK');
       this.error = true;
+      this.errorStack = err;
+    } finally {
+      client.release();
     }
     return this;
   }
