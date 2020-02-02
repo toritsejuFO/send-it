@@ -21,6 +21,9 @@ import asyncErrors from './middleware/asyncErrors';
 const app = express();
 const { SERVER_PORT } = process.env;
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: false}));
+
 app.use('/api/docs/v1', serve, setup(Yaml.load('./docs/swagger/api.v1.yml')));
 app.use('/api/v1/users', usersRouter);
 
