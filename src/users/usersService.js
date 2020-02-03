@@ -20,4 +20,6 @@ export default class UsersService {
     }
     return user.getCount();
   }
+
+  static capitalize = (data) => `${data[0].toUpperCase()}${data.slice(1)}`
 }
