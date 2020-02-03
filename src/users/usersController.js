@@ -11,10 +11,17 @@ export default class UsersController {
     newUser.isadmin = req.body.isAdmin || false;
     newUser.phone = req.body.phone || false;
 
-    if (await UsersService.exists(newUser.email)) {
+    if (await UsersService.exists({ email: newUser.email })) {
       return res.status(409).json({
         status: 409,
         error: 'User with this email already exists',
+      });
+    }
+
+    if (await UsersService.exists({ username: newUser.username })) {
+      return res.status(409).json({
+        status: 409,
+        error: 'User with this username already exists',
       });
     }
 

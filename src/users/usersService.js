@@ -11,9 +11,9 @@ export default class UsersService {
     return user.getDetails();
   }
 
-  static exists = async (email) => {
+  static exists = async (details) => {
     const user = new User();
-    await user.exists(email);
+    await user.exists(details);
     if (user.getError()) {
       console.log(user.getErrorStack());
       throw new Error('Unable to verify if user with this email exists');

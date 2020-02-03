@@ -22,8 +22,8 @@ export default class UsersModel {
     this.setInternal();
   }
 
-  exists = async (email) => {
-    await this.db.select(this.table, { email });
+  exists = async (details) => {
+    await this.db.select(this.table, details);
     await this.setInternal();
   }
 
