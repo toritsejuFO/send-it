@@ -9,14 +9,14 @@ const { expect } = chai;
 let db = null;
 
 describe('Database API', () => {
-  before((done) => {
+  before(async () => {
     db = new DB(); // Use a new pool for running tests
-    db.query('delete from users');
-    done();
+    await db.query('delete from users');
   });
 
-  after((done) => {
-    db.close().then(done());
+  after(async () => {
+    await db.query('delete from users');
+    db.close();
   });
 
   describe('database instance', () => {
