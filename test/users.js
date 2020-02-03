@@ -82,15 +82,4 @@ describe('users API', () => {
         done();
       });
   });
-
-  it('should throw error', (done) => {
-    chai.request(server)
-      .post('/api/v1/users')
-      .send({})
-      .end((err, res) => {
-        expect(err).be.null;
-        expect(res.body.status).to.equal(500);
-        done();
-      });
-  });
 });
