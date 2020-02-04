@@ -1,6 +1,5 @@
 /* eslint-disable newline-per-chained-call */
 import { body } from 'express-validator';
-import { isBoolean } from 'util';
 
 const len = 50;
 const emailLength = 128;
