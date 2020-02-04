@@ -22,7 +22,7 @@ describe('Auth API', () => {
     db.close();
   });
 
-  it('should create a new user successfully', (done) => {
+  it('should signup a new user successfully', (done) => {
     chai.request(server)
       .post('/api/v1/auth/signup')
       .send({
@@ -39,12 +39,13 @@ describe('Auth API', () => {
         expect(err).to.be.null;
         expect(res).to.be.an('object');
         expect(res.body.status).to.equal(201);
-        expect(res.body.data[0].email).to.equal('janedoe@gmail.com');
+        expect(res.body.data[0].user.email).to.equal('janedoe@gmail.com');
+        expect(res.body.data[0]).to.haveOwnProperty('token');
         done();
       });
   });
 
-  it('should not create a new user with email that already exists', (done) => {
+  it('should not signup a new user with email that already exists', (done) => {
     chai.request(server)
       .post('/api/v1/auth/signup')
       .send({
@@ -65,7 +66,7 @@ describe('Auth API', () => {
       });
   });
 
-  it('should not create a new user with username that already exists', (done) => {
+  it('should not signup a new user with username that already exists', (done) => {
     chai.request(server)
       .post('/api/v1/auth/signup')
       .send({
