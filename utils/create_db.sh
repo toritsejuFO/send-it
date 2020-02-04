@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DB_NAME="$2";
+DB_NAME="$1";
 
 # Use default database name if none is passed
 DB_NAME=${DB_NAME:-'sendit_test'}
