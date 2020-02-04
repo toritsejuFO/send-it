@@ -9,7 +9,7 @@
     "build": "babel src -d dist",
     "test": "export NODE_ENV=test DB_NAME=sendit_test && mocha --require @babel/register --exit",
     "coverage": "nyc npm test && nyc report --reporter=text-lcov > coverage.lcov",
-    "create-test-db": "utils/create_test_db.sh || exit 0"
+    "create-test-db": "utils/create_db.sh || exit 0"
   },
   "repository": {
     "type": "git",
