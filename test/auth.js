@@ -11,7 +11,7 @@ const { expect } = chai;
 
 let db = null;
 
-describe('users API', () => {
+describe('Auth API', () => {
   before(async () => {
     db = new DB();
     await db.query('delete from users');
@@ -24,7 +24,7 @@ describe('users API', () => {
 
   it('should create a new user successfully', (done) => {
     chai.request(server)
-      .post('/api/v1/users')
+      .post('/api/v1/auth/signup')
       .send({
         firstname: 'Jane',
         lastname: 'Doe',
@@ -46,7 +46,7 @@ describe('users API', () => {
 
   it('should not create a new user with email that already exists', (done) => {
     chai.request(server)
-      .post('/api/v1/users')
+      .post('/api/v1/auth/signup')
       .send({
         firstname: 'John',
         lastname: 'Doe',
@@ -67,7 +67,7 @@ describe('users API', () => {
 
   it('should not create a new user with username that already exists', (done) => {
     chai.request(server)
-      .post('/api/v1/users')
+      .post('/api/v1/auth/signup')
       .send({
         firstname: 'John',
         lastname: 'Doe',
