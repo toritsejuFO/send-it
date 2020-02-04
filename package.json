@@ -31,6 +31,7 @@
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "express-validator": "^6.3.1",
+    "jsonwebtoken": "^8.5.1",
     "pg": "^7.17.1",
     "swagger-ui-dist": "^3.25.0",
     "swagger-ui-express": "^4.1.3",

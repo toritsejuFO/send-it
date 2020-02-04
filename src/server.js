@@ -14,7 +14,7 @@ import Yaml from 'yamljs';
 
 
 // API imports
-import usersRouter from './users/usersRouter';
+import AuthRouter from './auth/authRouter';
 import asyncErrors from './middleware/asyncErrors';
 
 
@@ -22,10 +22,10 @@ const app = express();
 const { SERVER_PORT } = process.env;
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: false}));
+app.use(express.urlencoded({ extended: false }));
 
 app.use('/api/docs/v1', serve, setup(Yaml.load('./docs/swagger/api.v1.yml')));
-app.use('/api/v1/users', usersRouter);
+app.use('/api/v1/auth', AuthRouter);
 
 app.use('/api/v1', (_, res) => {
   res.status(200).send({
