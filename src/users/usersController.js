@@ -19,6 +19,7 @@ export default class UsersController {
     newUser.othernames = UsersService.capitalize(body.othernames);
     newUser.email = body.email;
     newUser.username = body.username;
+    newUser.password = await UsersService.hashPassword(body.password);
     newUser.isadmin = body.isAdmin || false;
     newUser.phone = body.phone || false;
 
@@ -36,10 +37,10 @@ export default class UsersController {
       });
     }
 
-    const signeupUser = await UsersService.signup(newUser);
+    const signedupUser = await UsersService.signup(newUser);
     return res.status(201).json({
       status: 201,
-      data: signeupUser,
+      data: [signedupUser],
     });
   }
 }
