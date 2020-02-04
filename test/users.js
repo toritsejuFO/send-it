@@ -31,6 +31,7 @@ describe('users API', () => {
         othernames: 'Alice',
         email: 'janedoe@gmail.com',
         username: 'alice',
+        password: 'smallCAPSNumb3rs&$ymb0ls',
         isAdmin: false,
         phone: '09012345678',
       })
@@ -52,6 +53,7 @@ describe('users API', () => {
         othernames: 'Bob',
         email: 'janedoe@gmail.com',
         username: 'bob',
+        password: 'smallCAPSNumb3rs&$ymb0ls',
         isAdmin: false,
         phone: '09012345678',
       })
@@ -72,6 +74,7 @@ describe('users API', () => {
         othernames: 'Bob',
         email: 'johndoe@gmail.com',
         username: 'alice',
+        password: 'smallCAPSNumb3rs&$ymb0ls',
         isAdmin: false,
         phone: '09012345678',
       })

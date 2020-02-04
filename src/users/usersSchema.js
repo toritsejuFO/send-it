@@ -36,5 +36,13 @@ export default {
       .not().isEmpty().withMessage('phone cannot be empty').bail()
       .isLength({ min: 1, max: phoneLength }).withMessage(`phone cannot exceed ${phoneLength} characters`).bail()
       .isMobilePhone().withMessage('phone must be a phone number').bail(),
+    body('password')
+      .exists().withMessage('password is required').bail()
+      .not().isEmpty().withMessage('password cannot be ull').bail()
+      .isLength({ min: 6 }).withMessage('password must be at least 6 characters').bail()
+      .matches(/[a-z]+/).withMessage('password must contain at least 1 lowercase letter').bail()
+      .matches(/[A-Z]+/).withMessage('password must contain at least 1 uppercase letter').bail()
+      .matches(/[0-9]+/).withMessage('password must contain at least 1 number').bail()
+      .matches(/[!@#$%^&*]+/).withMessage('password must contain at least 1 symbol').bail(),
   ],
 };

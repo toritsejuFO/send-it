@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import User from './usersModel';
 
 export default class UsersService {
@@ -8,7 +9,9 @@ export default class UsersService {
       console.log(user.getErrorStack());
       throw new Error('Unable to signup new user');
     }
-    return user.getDetails();
+    const userDetails = user.getDetails()[0];
+    delete userDetails.password;
+    return userDetails;
   }
 
   static exists = async (details) => {
@@ -22,4 +25,9 @@ export default class UsersService {
   }
 
   static capitalize = (data) => `${data[0].toUpperCase()}${data.slice(1)}`
+
+  static hashPassword = async (password) => {
+    const saltRounds = 2; // use low salt round for reducing running time cost
+    return bcrypt.hash(password, saltRounds);
+  }
 }
