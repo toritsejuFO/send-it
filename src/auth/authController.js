@@ -2,7 +2,7 @@ import { validationResult } from 'express-validator';
 import UsersService from '../users/usersService';
 import AuthService from './authService';
 
-export default class UsersController {
+export default class AuthController {
   static signup = async (req, res) => {
     const errors = validationResult(req);
 
@@ -18,8 +18,8 @@ export default class UsersController {
     newUser.firstname = UsersService.capitalize(body.firstname);
     newUser.lastname = UsersService.capitalize(body.lastname);
     newUser.othernames = UsersService.capitalize(body.othernames);
-    newUser.email = body.email;
-    newUser.username = body.username;
+    newUser.email = body.email.toLowerCase();
+    newUser.username = body.username.toLowerCase();
     newUser.password = await AuthService.hashPassword(body.password);
     newUser.isadmin = body.isAdmin || false;
     newUser.phone = body.phone || false;
@@ -38,8 +38,8 @@ export default class UsersController {
       });
     }
 
-    const signedupUser = await AuthService.signup(newUser);
-    const token = AuthService.generateToken({
+    const user = await UsersService.create(newUser);
+    const token = await AuthService.generateToken({
       email: newUser.email,
       username: newUser.username,
       isAdmin: newUser.isAdmin,
@@ -47,10 +47,40 @@ export default class UsersController {
 
     return res.status(201).json({
       status: 201,
-      data: [{
-        user: signedupUser,
-        token,
-      }],
+      data: [{ user, token }],
+    });
+  }
+
+
+  static login = async (req, res) => {
+    const { userId, password } = req.body;
+
+    const user = await UsersService.findByEmailOrUsername(userId.toLowerCase());
+    if (!user) {
+      return res.status(401).send({
+        status: 401,
+        error: 'Invalid email/username or password',
+      });
+    }
+
+    const passwordVerified = await AuthService.verifyPassword(password, user.password);
+    if (!passwordVerified) {
+      return res.status(401).send({
+        status: 401,
+        error: 'Invalid email/username or password',
+      });
+    }
+
+    const token = await AuthService.generateToken({
+      email: user.email,
+      username: user.username,
+      admin: user.isAdmin,
+    });
+
+    delete user.password;
+    return res.status(200).json({
+      status: 200,
+      data: [{ user, token }],
     });
   }
 }

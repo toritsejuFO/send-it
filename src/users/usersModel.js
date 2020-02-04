@@ -27,6 +27,16 @@ export default class UsersModel {
     await this.setInternal();
   }
 
+  findByEmail = async (email) => {
+    await this.db.select(this.table, { email });
+    await this.setInternal();
+  }
+
+  findByUsername = async (username) => {
+    await this.db.select(this.table, { username });
+    await this.setInternal();
+  }
+
   getError = () => this.error
 
   getCount = () => this.count
