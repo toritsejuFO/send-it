@@ -38,6 +38,7 @@ describe('Database API', () => {
           othernames: 'Bob',
           email: 'johndoe@gmail.com',
           username: 'bob',
+          password: 'smallCAPSNumb3rs&$ymb0ls',
           isAdmin: true,
           phone: '09012345678',
         });
@@ -56,6 +57,7 @@ describe('Database API', () => {
           othernames: 'Alice',
           email: 'johndoe@gmail.com',
           username: 'alice',
+          password: 'smallCAPSNumb3rs&$ymb0ls',
           isAdmin: false,
           phone: '09012345678',
         });
@@ -93,7 +95,7 @@ describe('Database API', () => {
 
   describe('update', () => {
     describe('updates functions properly', () => {
-      it('should update and exisitng user successfully', async () => {
+      it('should update an exisitng user successfully', async () => {
         await db.update('users', {
           username: 'newbob',
         }, {
