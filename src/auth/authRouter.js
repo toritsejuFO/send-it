@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import UsersController from './usersController';
-import validate from './usersSchema';
+import AuthController from './authController';
+import validate from './authSchema';
 
-const usersRouter = Router();
+const AuthRouter = Router();
 
-usersRouter.post('/', validate.signupDetails, UsersController.signup);
+AuthRouter.post('/signup', validate.signupDetails, AuthController.signup);
 
-export default usersRouter;
+export default AuthRouter;
