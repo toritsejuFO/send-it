@@ -39,9 +39,18 @@ export default class UsersController {
     }
 
     const signedupUser = await AuthService.signup(newUser);
+    const token = AuthService.generateToken({
+      email: newUser.email,
+      username: newUser.username,
+      isAdmin: newUser.isAdmin,
+    });
+
     return res.status(201).json({
       status: 201,
-      data: [signedupUser],
+      data: [{
+        user: signedupUser,
+        token,
+      }],
     });
   }
 }

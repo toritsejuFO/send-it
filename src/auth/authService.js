@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import User from '../users/usersModel';
 
 export default class UsersService {
@@ -17,5 +18,15 @@ export default class UsersService {
   static hashPassword = async (password) => {
     const saltRounds = 2; // use low salt round for reducing running time cost
     return bcrypt.hash(password, saltRounds);
+  }
+
+  static generateToken = (payload) => {
+    try {
+      return jwt.sign(payload, process.env.SECRET_KEY, {
+        expiresIn: '24h',
+      });
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 }
