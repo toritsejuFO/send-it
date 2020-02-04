@@ -42,7 +42,7 @@ export default class AuthController {
     const token = await AuthService.generateToken({
       email: newUser.email,
       username: newUser.username,
-      isAdmin: newUser.isAdmin,
+      isAdmin: newUser.isadmin,
     });
 
     return res.status(201).json({
@@ -74,7 +74,7 @@ export default class AuthController {
     const token = await AuthService.generateToken({
       email: user.email,
       username: user.username,
-      admin: user.isAdmin,
+      isAdmin: user.isadmin,
     });
 
     delete user.password;
