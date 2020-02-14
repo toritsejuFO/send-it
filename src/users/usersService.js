@@ -4,7 +4,7 @@ export default class UsersService {
   static create = async (newUser) => {
     const user = new User();
     await user.create(newUser);
-    if (user.getError()) {
+    if (user.hasError()) {
       console.log(user.getErrorStack());
       throw new Error('Unable to signup new user');
     }
@@ -19,7 +19,7 @@ export default class UsersService {
 
     // Find existing user by email
     await user.findByEmail(userId);
-    if (user.getError()) {
+    if (user.hasError()) {
       console.log(user.getErrorStack());
       throw new Error('Unable to login user');
     }
@@ -27,7 +27,7 @@ export default class UsersService {
     // Or by username
     if (!user.getCount()) {
       await user.findByUsername(userId);
-      if (user.getError()) {
+      if (user.hasError()) {
         console.log(user.getErrorStack());
         throw new Error('Unable to login user');
       }
@@ -46,7 +46,7 @@ export default class UsersService {
   static exists = async (details) => {
     const user = new User();
     await user.exists(details);
-    if (user.getError()) {
+    if (user.hasError()) {
       console.log(user.getErrorStack());
       throw new Error('Unable to verify if user with this email exists');
     }
