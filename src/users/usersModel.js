@@ -37,7 +37,7 @@ export default class UsersModel {
     await this.setInternal();
   }
 
-  getError = () => this.error
+  hasError = () => this.error
 
   getCount = () => this.count
 

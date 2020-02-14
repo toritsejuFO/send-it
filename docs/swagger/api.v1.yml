@@ -1,4 +1,4 @@
-swagger: '2.0'
+swagger: "2.0"
 
 info:
   title: SendIT API
@@ -8,6 +8,8 @@ info:
 host: localhost:3000
 basePath: /api/v1
 
+produces: application/json
+
 paths:
   /:
     get:
@@ -15,9 +17,109 @@ paths:
       responses:
         "200":
           description: "API base route"
-  /users:
-    get:
-      summary: Get all users
+  /auth/signup:
+    post:
+      summary: Signup a new user
+      consumes: application/json
+      parameters:
+        - in: body
+          name: user
+          description: Signup details
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        "201":
+          description: User signed up successfully
+          schema:
+            $ref: "#/definitions/Auth_Success"
+        "400":
+          description: Invalid request
+          schema:
+            $ref: "#/definitions/Error"
+        "409":
+          description: Conflict creating new user
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/Error"
+  /auth/login:
+    post:
+      summary: Login a user
+      parameters:
+        - in: body
+          description: Login details
+          name: login
+          schema:
+            $ref: "#/definitions/Login"
       responses:
         "200":
-          description: "Get all users"
+          description: User logged in successfully
+          schema:
+            $ref: "#/definitions/Auth_Success"
+        "401":
+          description: Authentication failed
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/Error"
+
+definitions:
+  Auth_Success:
+    type: object
+    properties:
+      status:
+        type: integer
+        example: 200
+      data:
+        type: array
+        items:
+          type: object
+          properties:
+            users:
+              type: object
+            token:
+              type: string
+  Error:
+    type: object
+    properties:
+      status:
+        type: integer
+      error:
+        type: string
+  User:
+    type: object
+    properties:
+      firstname:
+        type: string
+      lastname:
+        type: string
+      othernames:
+        type: string
+      email:
+        type: string
+      username:
+        type: string
+      password:
+        type: string
+      isAdmin:
+        type: string
+      phone:
+        type: string
+      required:
+        - firstname
+        - lastname
+        - email
+        - username
+        - password
+        - phone
+  Login:
+    type: object
+    properties:
+      userId:
+        type: string
+      password:
+        type: string
