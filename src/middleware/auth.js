@@ -7,7 +7,7 @@ export const userAuth = async (req, res, next) => {
     return res.status(401)
       .json({
         status: 401,
-        error: 'API Token is not provided',
+        error: 'API token is not provided',
       });
   }
 

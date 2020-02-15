@@ -25,7 +25,7 @@ export default class ParcelsController {
     const parcel = await ParcelsService.createDeliveryOrder(newParcelOrder);
 
     return res.status(200).json({
-      status: 200,
+      status: 201,
       data: [{
         id: parcel.id,
         message: 'Order placed',
