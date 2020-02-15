@@ -74,7 +74,7 @@ describe('Parcels API', () => {
           expect(err).to.be.null;
           expect(res).to.be.an('object');
           expect(res.body.status).to.equal(500);
-          expect(res.body.error).to.equal('jwt expired');
+          expect(res.body.error).to.be.oneOf(['jwt expired', 'invalid signature']);
           done();
         });
     });
