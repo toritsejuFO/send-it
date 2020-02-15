@@ -18,7 +18,6 @@ describe('Auth API', () => {
   });
 
   after(async () => {
-    await db.query('delete from users');
     db.close();
   });
 
