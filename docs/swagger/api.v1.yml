@@ -31,19 +31,13 @@ paths:
         "201":
           description: User signed up successfully
           schema:
-            $ref: "#/definitions/Auth_Success"
+            $ref: "#/responses/AuthSuccess"
         "400":
-          description: Invalid request
-          schema:
-            $ref: "#/definitions/Error"
+          $ref: "#/responses/InvalidRequest"
         "409":
-          description: Conflict creating new user
-          schema:
-            $ref: "#/definitions/Error"
+          $ref: "#/responses/Conflict"
         "500":
-          description: Internal Server Error
-          schema:
-            $ref: "#/definitions/Error"
+          $ref: "#/responses/InternalServerError"
   /auth/login:
     post:
       summary: Login a user
@@ -57,18 +51,38 @@ paths:
         "200":
           description: User logged in successfully
           schema:
-            $ref: "#/definitions/Auth_Success"
+            $ref: "#/responses/AuthSuccess"
         "401":
-          description: Authentication failed
-          schema:
-            $ref: "#/definitions/Error"
+          $ref: "#/responses/Unauthenticated"
         "500":
-          description: Internal Server Error
+          $ref: "#/responses/InternalServerError"
+  /parcels:
+    post:
+      summary: Create a new parcel order
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: body
+          description: "Parcel details"
+          name: create_parcel
           schema:
-            $ref: "#/definitions/Error"
+            $ref: "#/definitions/NewParcel"
+      responses:
+        "201":
+          description: "Order placed successfully"
+          schema:
+            $ref: "#/responses/ParcelCreatedResponse"
+        "400":
+          $ref: "#/responses/InvalidRequest"
+        "401":
+          $ref: "#/responses/Unauthenticated"
+        "403":
+          $ref: "#/responses/Unauthorized"
+        "500":
+          $ref: "#/responses/InternalServerError"
 
-definitions:
-  Auth_Success:
+responses:
+  AuthSuccess:
     type: object
     properties:
       status:
@@ -80,16 +94,98 @@ definitions:
           type: object
           properties:
             users:
-              type: object
+              $ref: "#/definitions/User"
             token:
               type: string
-  Error:
+  Conflict:
+    description: Conflict creating new user
+    schema:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 409
+        error:
+          type: string
+  InvalidRequest:
+    description: Invalid Request
+    schema:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 400
+        error:
+          type: string
+  InternalServerError:
+    description: Internal Server Error
+    schema:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 500
+        error:
+          type: string
+  ParcelCreatedResponse:
     type: object
     properties:
       status:
-        type: integer
-      error:
         type: string
+      data:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: number
+              example: 1
+            message:
+              type: string
+              example: Order placed
+  Unauthenticated:
+    description: Authentication failed
+    schema:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 401
+        error:
+          type: string
+  Unauthorized:
+    description: Unauthorized user
+    schema:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 403
+        error:
+          type: string
+
+definitions:
+  Login:
+    type: object
+    properties:
+      userId:
+        type: string
+      password:
+        type: string
+  NewParcel:
+    type: object
+    properties:
+      weight:
+        type: integer
+      weightmetric:
+        type: string
+        example: kg
+      from:
+        type: string
+        example: "source address"
+      to:
+        type: string
+        example: "destination address"
   User:
     type: object
     properties:
@@ -116,10 +212,9 @@ definitions:
         - username
         - password
         - phone
-  Login:
-    type: object
-    properties:
-      userId:
-        type: string
-      password:
-        type: string
+
+securityDefinitions:
+  ApiKeyAuth:
+    type: apiKey
+    in: header
+    name: x-api-token
