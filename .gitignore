@@ -16,3 +16,7 @@ dist/
 
 # environment variables
 .env
+
+# logs
+logs/
+.log
