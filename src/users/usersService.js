@@ -1,11 +1,14 @@
+import logger from '../../logger';
 import User from './usersModel';
+
+const { errorLogger } = logger;
 
 export default class UsersService {
   static create = async (newUser) => {
     const user = new User();
     await user.create(newUser);
     if (user.hasError()) {
-      console.log(user.getErrorStack());
+      errorLogger.error(user.getErrorStack(), { file: __filename });
       throw new Error('Unable to signup new user');
     }
     const userDetails = user.getDetails()[0];
@@ -20,7 +23,7 @@ export default class UsersService {
     // Find existing user by email
     await user.findByEmail(userId);
     if (user.hasError()) {
-      console.log(user.getErrorStack());
+      errorLogger.error(user.getErrorStack(), { file: __filename });
       throw new Error('Unable to login user');
     }
 
@@ -28,7 +31,7 @@ export default class UsersService {
     if (!user.getCount()) {
       await user.findByUsername(userId);
       if (user.hasError()) {
-        console.log(user.getErrorStack());
+        errorLogger.error(user.getErrorStack(), { file: __filename });
         throw new Error('Unable to login user');
       }
     }
@@ -47,7 +50,7 @@ export default class UsersService {
     const user = new User();
     await user.exists(details);
     if (user.hasError()) {
-      console.log(user.getErrorStack());
+      errorLogger.error(user.getErrorStack(), { file: __filename });
       throw new Error('Unable to verify if user with this email exists');
     }
     return user.getCount();

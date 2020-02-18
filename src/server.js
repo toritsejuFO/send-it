@@ -19,9 +19,12 @@ import asyncErrors from './middleware/asyncErrors';
 import AuthRouter from './auth/authRouter';
 import ParcelsRouter from './parcels/parcelsRouter';
 
-
 const app = express();
-const { SERVER_PORT } = process.env;
+const { SERVER_PORT, NODE_ENV } = process.env;
+
+if (NODE_ENV === 'production') {
+  logger.errorLogger.add(logger.errorLoggerFileTransporter);
+}
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
