@@ -64,7 +64,7 @@ paths:
       parameters:
         - in: body
           description: "Parcel details"
-          name: create_parcel
+          name: createParcel
           schema:
             $ref: "#/definitions/NewParcel"
       responses:
@@ -74,6 +74,26 @@ paths:
             $ref: "#/responses/ParcelCreatedResponse"
         "400":
           $ref: "#/responses/InvalidRequest"
+        "401":
+          $ref: "#/responses/Unauthenticated"
+        "403":
+          $ref: "#/responses/Unauthorized"
+        "500":
+          $ref: "#/responses/InternalServerError"
+  /parcels/{id}:
+    get:
+      summary: View a specific parcel order
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          description: "Id of specific parcel"
+          name: id
+      responses:
+        "200":
+          description: "Return parcel details, empty data array if not found"
+          schema:
+            $ref: "#/responses/ParcelFetchedResponse"
         "401":
           $ref: "#/responses/Unauthenticated"
         "403":
@@ -143,6 +163,52 @@ responses:
             message:
               type: string
               example: Order placed
+  ParcelFetchedResponse:
+    type: object
+    properties:
+      status:
+        type: string
+      data:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: number
+              example: 1
+            placedby:
+              type: number
+              example: 1
+            weight:
+              type: integer
+              example: 50
+            weightmetric:
+              type: string
+              enum:
+                - kg
+                - lb
+                - t
+            senton:
+              type: string
+              format: date-time
+            deliveredton:
+              type: string
+              format: date-time
+            status:
+              type: string
+              enum:
+                - placed
+                - transiting
+                - delivered
+            fromaddress:
+              type: string
+              example: "source address"
+            toaddress:
+              type: string
+              example: "destination address"
+            currentlocation:
+              type: string
+              example: "current address"
   Unauthenticated:
     description: Authentication failed
     schema:
@@ -179,7 +245,10 @@ definitions:
         type: integer
       weightmetric:
         type: string
-        example: kg
+        enum:
+          - kg
+          - lb
+          - t
       from:
         type: string
         example: "source address"
