@@ -10,6 +10,11 @@ const { expect } = chai;
 
 let db = null;
 
+let janeParcelId;
+let johnParcelId;
+let janeValidToken;
+let johnValidToken;
+
 describe('Parcels API', () => {
   before(async () => {
     db = new DB();
@@ -21,7 +26,7 @@ describe('Parcels API', () => {
     db.close();
   });
 
-  describe('Parcel order creation', () => {
+  describe('Create parcel order', () => {
     // Log user in
     it('should create a new parcel successfully for an authenticated/verified user with a valid token', (done) => {
       chai.request(server)
@@ -36,12 +41,12 @@ describe('Parcels API', () => {
           expect(res.body.status).to.equal(200);
           expect(res.body.data[0].user.email).to.equal('janedoe@gmail.com');
           expect(res.body.data[0]).to.haveOwnProperty('token');
-          const { token } = res.body.data[0];
+          janeValidToken = res.body.data[0].token;
 
           // Create new parcel delivery order
           chai.request(server)
             .post('/api/v1/parcels')
-            .set('x-api-token', token)
+            .set('x-api-token', janeValidToken)
             .send({
               weight: 100,
               weightmetric: 'lb',
@@ -54,16 +59,54 @@ describe('Parcels API', () => {
               expect(resp.body.status).to.equal(201);
               expect(resp.body.data[0]).to.haveOwnProperty('id');
               expect(resp.body.data[0].message).to.equal('Order placed');
+              janeParcelId = resp.body.data[0].id;
+              done();
+            });
+        });
+    });
+
+    it('should create a new parcel successfully for another authenticated/verified user with a valid token', (done) => {
+      chai.request(server)
+        .post('/api/v1/auth/login')
+        .send({
+          userId: 'johndoe@gmail.com',
+          password: 'smallCAPSNumb3rs&$ymb0ls',
+        })
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res).to.be.an('object');
+          expect(res.body.status).to.equal(200);
+          expect(res.body.data[0].user.email).to.equal('johndoe@gmail.com');
+          expect(res.body.data[0]).to.haveOwnProperty('token');
+          johnValidToken = res.body.data[0].token;
+
+          // Create new parcel delivery order
+          chai.request(server)
+            .post('/api/v1/parcels')
+            .set('x-api-token', johnValidToken)
+            .send({
+              weight: 100,
+              weightmetric: 'kg',
+              from: 'Surulere',
+              to: 'Yaba',
+            })
+            .end((error, resp) => {
+              expect(error).to.be.null;
+              expect(resp).to.be.an('object');
+              expect(resp.body.status).to.equal(201);
+              expect(resp.body.data[0]).to.haveOwnProperty('id');
+              expect(resp.body.data[0].message).to.equal('Order placed');
+              johnParcelId = resp.body.data[0].id;
               done();
             });
         });
     });
 
     it('should not create parcel delivery order for unverified user with expired token', (done) => {
-      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0b3JpYm9pLmZvQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoidG9yaXRzZWp1Zm8iLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTgxNjk1OTgzLCJleHAiOjE1ODE3ODIzODN9.PGvy5PEAG1O7cnilHjeJ7Ae471lHnZDyqd5gEwsbdj8';
+      const invalidToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0b3JpYm9pLmZvQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoidG9yaXRzZWp1Zm8iLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTgxNjk1OTgzLCJleHAiOjE1ODE3ODIzODN9.PGvy5PEAG1O7cnilHjeJ7Ae471lHnZDyqd5gEwsbdj8';
       chai.request(server)
         .post('/api/v1/parcels')
-        .set('x-api-token', token)
+        .set('x-api-token', invalidToken)
         .send({
           weight: 100,
           weightmetric: 'lb',
@@ -80,10 +123,10 @@ describe('Parcels API', () => {
     });
 
     it('should not create parcel delivery order for unverified user with invalid token', (done) => {
-      const token = 'yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0b3JpYm9pLmZvQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoidG9yaXRzZWp1Zm8iLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTgxNjk1OTgzLCJleHAiOjE1ODE3ODIzODN9.PGvy5PEAG1O7cnilHjeJ7Ae471lHnZDyqd5gEwsbdj8';
+      const invalidToken = 'yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0b3JpYm9pLmZvQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoidG9yaXRzZWp1Zm8iLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTgxNjk1OTgzLCJleHAiOjE1ODE3ODIzODN9.PGvy5PEAG1O7cnilHjeJ7Ae471lHnZDyqd5gEwsbdj8';
       chai.request(server)
         .post('/api/v1/parcels')
-        .set('x-api-token', token)
+        .set('x-api-token', invalidToken)
         .send({
           weight: 100,
           weightmetric: 'kg',
@@ -100,10 +143,10 @@ describe('Parcels API', () => {
     });
 
     it('should not create parcel delivery order for unverified user with malformed jwt', (done) => {
-      const token = 'invalid token string';
+      const invalidToken = 'invalid token string';
       chai.request(server)
         .post('/api/v1/parcels')
-        .set('x-api-token', token)
+        .set('x-api-token', invalidToken)
         .send({
           weight: 100,
           weightmetric: 'kg',
@@ -133,6 +176,49 @@ describe('Parcels API', () => {
           expect(res).to.be.an('object');
           expect(res.body.status).to.equal(401);
           expect(res.body.error).to.equal('API token is not provided');
+          done();
+        });
+    });
+  });
+
+  describe('Get a specific parcel order', () => {
+    it('should get a specific parcel order for an authenticated user', (done) => {
+      chai.request(server)
+        .get(`/api/v1/parcels/${janeParcelId}`)
+        .set('x-api-token', janeValidToken)
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res).to.be.an('object');
+          expect(res.body.status).to.equal(200);
+          expect(res.body.data[0]).to.have.own.property('id');
+          expect(res.body.data[0].id).to.equal(janeParcelId);
+          done();
+        });
+    });
+
+    it('should get a specific parcel order for another authenticated user', (done) => {
+      chai.request(server)
+        .get(`/api/v1/parcels/${johnParcelId}`)
+        .set('x-api-token', johnValidToken)
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res).to.be.an('object');
+          expect(res.body.status).to.equal(200);
+          expect(res.body.data[0]).to.have.own.property('id');
+          expect(res.body.data[0].id).to.equal(johnParcelId);
+          done();
+        });
+    });
+
+    it('should not get a specific parcel order belonging to another user', (done) => {
+      chai.request(server)
+        .get(`/api/v1/parcels/${johnParcelId}`)
+        .set('x-api-token', janeValidToken)
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res).to.be.an('object');
+          expect(res.body.status).to.equal(200);
+          expect(res.body.data.length).to.equal(0);
           done();
         });
     });
