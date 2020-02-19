@@ -32,4 +32,22 @@ export default class ParcelsController {
       }],
     });
   }
+
+  static getDeliveryOrder = async (req, res) => {
+    const parcelId = req.params.id;
+    const userId = req.user.id;
+    const parcel = await ParcelsService.findById(parcelId);
+
+    if (!parcel || parcel.placedby !== userId) {
+      return res.status(200).json({
+        status: 200,
+        data: [],
+      });
+    }
+
+    return res.status(200).json({
+      status: 200,
+      data: [{ ...parcel }],
+    });
+  }
 }

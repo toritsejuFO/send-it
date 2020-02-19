@@ -22,6 +22,11 @@ export default class Parcel {
     this.setInternal();
   }
 
+  findById = async (id) => {
+    await this.db.select(this.table, { id });
+    this.setInternal();
+  }
+
   hasError = () => this.error
 
   getCount = () => this.count
