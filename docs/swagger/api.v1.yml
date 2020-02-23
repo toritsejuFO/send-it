@@ -80,6 +80,21 @@ paths:
           $ref: "#/responses/Unauthorized"
         "500":
           $ref: "#/responses/InternalServerError"
+    get:
+      summary: View all parcel orders
+      security:
+        - ApiKeyAuth: []
+      responses:
+        "200":
+          description: "Return details of all parcel orders, empty data array if not found"
+          schema:
+            $ref: "#/responses/ParcelFetchedResponse"
+        "401":
+          $ref: "#/responses/Unauthenticated"
+        "403":
+          $ref: "#/responses/Unauthorized"
+        "500":
+          $ref: "#/responses/InternalServerError"
   /parcels/{id}:
     get:
       summary: View a specific parcel order
