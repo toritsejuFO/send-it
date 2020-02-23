@@ -50,4 +50,22 @@ export default class ParcelsController {
       data: [{ ...parcel }],
     });
   }
+
+  static getAllDeliveryOrders = async (req, res) => {
+    const userId = req.user.id;
+
+    const parcels = await ParcelsService.findAllByUserId(userId);
+
+    if (!parcels) {
+      return res.status(200).json({
+        status: 200,
+        data: [],
+      });
+    }
+
+    return res.status(200).json({
+      status: 200,
+      data: parcels,
+    });
+  }
 }
