@@ -223,4 +223,19 @@ describe('Parcels API', () => {
         });
     });
   });
+
+  describe('Get all parcel orders', () => {
+    it('should get all parcel orders of an authenticated user', (done) => {
+      chai.request(server)
+        .get('/api/v1/parcels')
+        .set('x-api-token', janeValidToken)
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res).to.be.an('object');
+          expect(res.body.status).to.equal(200);
+          expect(res.body.data.length).to.be.greaterThan(0);
+          done();
+        });
+    });
+  });
 });
