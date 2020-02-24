@@ -41,7 +41,9 @@ export default class DB {
 
     const client = await this.pool.connect();
     try {
+      await client.query('BEGIN');
       const res = await client.query(sql, values);
+      await client.query('COMMIT');
       this.res = res.rows;
       this.count = res.rowCount;
     } catch (err) {
@@ -131,6 +133,34 @@ export default class DB {
     const finalValues = Object.values(params).concat(Object.values(conditionParams));
     return this.query(sql, Object.values(finalValues));
   }
+
+
+  delete = async (table = null, conditionParams = {}) => {
+    const deleteParams = Object.entries(conditionParams);
+    let query = '';
+
+    // Construct query parameters string based on entries. E.g id = $1
+    deleteParams.forEach((deleteParam, index) => {
+      const [key, _] = deleteParam;
+      query += ` ${key} = $${index + 1} and`;
+    });
+    // Remove last 'and' from constructed string
+    query = DB.removeXNumberOfCharFromEndOfString(query, 3);
+
+    if (table === 'parcels') {
+      query += ' and status != \'delivered\' and status != \'transiting\'';
+    }
+
+    const sql = `
+      DELETE
+      FROM ${table}
+      WHERE ${query}
+      RETURNING *
+    `;
+
+    return this.query(sql, Object.values(conditionParams));
+  }
+
 
   close = async () => this.pool.end()
 

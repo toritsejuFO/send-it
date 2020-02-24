@@ -82,7 +82,7 @@ describe('Database API', () => {
     });
 
     describe('select functions improperly', () => {
-      it('should not fetch a non exsiting user', async () => {
+      it('should not fetch a non-exsiting user', async () => {
         await db.select('users', {
           email: 'janedoe@gmail.com',
         });
@@ -109,10 +109,35 @@ describe('Database API', () => {
     });
 
     describe('updates functions improperly', () => {
-      it('should not update and exisitng user successfully', async () => {
+      it('should not update a non-exisitng user', async () => {
         await db.update('users', {
           username: 'newalice',
         }, {
+          email: 'janedoe@gmail.com',
+        });
+        expect(db.error).to.false;
+        expect(db.count).to.equal(0);
+        expect(db.res).to.be.an('array').that.is.empty;
+      });
+    });
+  });
+
+  describe('delete', () => {
+    describe('delete functions properly', () => {
+      it('should delete an exisitng user successfully', async () => {
+        await db.delete('users', {
+          email: 'johndoe@gmail.com',
+        });
+        expect(db.error).to.false;
+        expect(db.count).to.equal(1);
+        expect(db.res).to.be.an('array').that.is.not.empty;
+        expect(db.res[0].username).to.equal('newbob');
+      });
+    });
+
+    describe('delete functions improperly', () => {
+      it('should not delete a non-exisitng user', async () => {
+        await db.delete('users', {
           email: 'janedoe@gmail.com',
         });
         expect(db.error).to.false;

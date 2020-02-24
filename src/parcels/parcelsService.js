@@ -49,5 +49,21 @@ export default class ParcelsService {
     return parcel.getDetails();
   }
 
+  static deleteByIdAndUserId = async (parcelId, userId) => {
+    const parcel = new Parcel();
+    await parcel.deleteByIdAndUserId(parcelId, userId);
+
+    if (parcel.hasError()) {
+      errorLogger.error(parcel.getErrorStack(), { file: __filename });
+      throw new Error('Unable to cancel delivery');
+    }
+
+    if (!parcel.getCount()) {
+      return false;
+    }
+
+    return parcel.getDetails()[0];
+  }
+
   static toFloat = (data) => parseFloat(data)
 }
