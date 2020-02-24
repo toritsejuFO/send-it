@@ -104,11 +104,33 @@ paths:
         - in: path
           description: "Id of specific parcel"
           name: id
+          required: id
       responses:
         "200":
           description: "Return parcel details, empty data array if not found"
           schema:
             $ref: "#/responses/ParcelFetchedResponse"
+        "401":
+          $ref: "#/responses/Unauthenticated"
+        "403":
+          $ref: "#/responses/Unauthorized"
+        "500":
+          $ref: "#/responses/InternalServerError"
+  /parcels/{id}/cancel:
+    patch:
+      summary: Cancel a specific parcel order
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          description: "Id of specific parcel"
+          name: id
+          required: id
+      responses:
+        "200":
+          $ref: '#/responses/ParcelCanceledResponse'
+        "400":
+          $ref: '#/responses/ParcelCanceledFailedResponse'
         "401":
           $ref: "#/responses/Unauthenticated"
         "403":
@@ -162,6 +184,34 @@ responses:
           example: 500
         error:
           type: string
+  ParcelCanceledFailedResponse:
+    description: Return error message for bad request
+    schema:
+      type:
+      properties:
+        status:
+          type: integer
+          example: 400
+        error:
+          type: string
+          example: Order with id 1 doesn't exist
+  ParcelCanceledResponse:
+    description: Return deleted parcel id and message
+    schema:
+      type:
+      properties:
+        status:
+          type: integer
+          example: 200
+        data:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            message:
+              type: string
+              example: Order canceled
   ParcelCreatedResponse:
     type: object
     properties:
