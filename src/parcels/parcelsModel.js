@@ -32,6 +32,11 @@ export default class Parcel {
     this.setInternal();
   }
 
+  deleteByIdAndUserId = async (id, userId) => {
+    await this.db.delete(this.table, { id, placedby: userId });
+    this.setInternal();
+  }
+
   hasError = () => this.error
 
   getCount = () => this.count
