@@ -36,9 +36,9 @@ export default class ParcelsController {
   static getDeliveryOrder = async (req, res) => {
     const parcelId = req.params.id;
     const userId = req.user.id;
-    const parcel = await ParcelsService.findById(parcelId);
+    const parcel = await ParcelsService.findByIdAndUserId(parcelId, userId);
 
-    if (!parcel || parcel.placedby !== userId) {
+    if (!parcel) {
       return res.status(200).json({
         status: 200,
         data: [],

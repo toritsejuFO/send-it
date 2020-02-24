@@ -17,9 +17,9 @@ export default class ParcelsService {
   }
 
 
-  static findById = async (parcelId) => {
+  static findByIdAndUserId = async (parcelId, userId) => {
     const parcel = new Parcel();
-    await parcel.findById(parcelId);
+    await parcel.findByIdAndUserId(parcelId, userId);
 
     if (parcel.hasError()) {
       errorLogger.error(parcel.getErrorStack(), { file: __filename });
