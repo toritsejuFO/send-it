@@ -33,5 +33,21 @@ export default class ParcelsService {
     return parcel.getDetails()[0];
   }
 
+  static findAllByUserId = async (userId) => {
+    const parcel = new Parcel();
+    await parcel.findAllByUserId(userId);
+
+    if (parcel.hasError()) {
+      errorLogger.error(parcel.getErrorStack(), { file: __filename });
+      throw new Error('Unable to find parcels');
+    }
+
+    if (!parcel.getCount()) {
+      return false;
+    }
+
+    return parcel.getDetails();
+  }
+
   static toFloat = (data) => parseFloat(data)
 }

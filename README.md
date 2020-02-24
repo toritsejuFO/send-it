@@ -4,7 +4,11 @@
 [![codecov](https://codecov.io/gh/toritsejuFO/send-it/branch/dev/graph/badge.svg?token=RMF2g3ltZS)](https://codecov.io/gh/toritsejuFO/send-it)
 [![npm version](https://badge.fury.io/js/npm.svg)](https://badge.fury.io/js/npm)
 
-SendIT is a courier service that helps users deliver parcels to different destinations. An Andela project.
+SendIT is a courier service that helps users deliver parcels to different destinations.
+
+The project is implemented according to the specifications which can be found in the SendIT-Javascript.pdf file. For example, you could ask why I'm not using sequelize rather than going direct with node-postgres for database interactions, that's beacuse the project specification said so.
+
+The project is based on specifications received from Andela at a time, during applications to be a volunteer mentor at one of their programs.
 
 ## Development Setup (Linux)
 
@@ -29,3 +33,6 @@ assumes `postgres` as the default database user.
   npm run create-test-db
   npm test
 ```
+
+## Meta
+You can find the link to the pivotal [here](https://www.pivotaltracker.com/n/projects/2321232#)
