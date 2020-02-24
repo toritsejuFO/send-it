@@ -22,8 +22,8 @@ export default class Parcel {
     this.setInternal();
   }
 
-  findById = async (id) => {
-    await this.db.select(this.table, { id });
+  findByIdAndUserId = async (id, userId) => {
+    await this.db.select(this.table, { id, placedby: userId });
     this.setInternal();
   }
 
