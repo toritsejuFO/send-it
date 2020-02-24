@@ -238,4 +238,18 @@ describe('Parcels API', () => {
         });
     });
   });
+
+  describe('Delete a parcel order', () => {
+    it('should cancel a parcel delivery order', async () => {
+      chai.request(server)
+        .patch(`/api/v1/parcels/${johnParcelId}/cancel`)
+        .set('x-api-token', johnValidToken)
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res).to.be.an('object');
+          expect(res.body.status).to.equal(200);
+          expect(res.body.data[0].id).to.equal(johnParcelId);
+        });
+    });
+  });
 });
