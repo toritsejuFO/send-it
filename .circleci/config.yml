@@ -35,3 +35,4 @@ workflows:
       - say-world:
           requires:
             - say-hello
+      - print-my-name
