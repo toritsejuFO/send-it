@@ -19,6 +19,15 @@ jobs:
           name: Say World
           command: echo "World!"
 
+  print-my-name:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: Print name
+          command: echo << MY_NAME >>
+
 workflows:
   say-hello-workflow:
     jobs:
