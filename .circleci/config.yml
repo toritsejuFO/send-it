@@ -26,7 +26,16 @@ jobs:
       - checkout
       - run:
           name: Print name
-          command: echo << MY_NAME >>
+          command: echo $MY_NAME
+
+  print-my-branch:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: Print branch
+          command: echo ${CIRCLE_BRANCH}
 
 workflows:
   say-hello-workflow:
@@ -36,3 +45,4 @@ workflows:
           requires:
             - say-hello
       - print-my-name
+      - print-my-branch
